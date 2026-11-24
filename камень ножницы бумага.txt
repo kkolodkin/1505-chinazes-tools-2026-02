@@ -1,35 +1,33 @@
 import random
 
-def play_game():
-    choices = ["камень", "ножницы", "бумага"]
-    
-    print("Добро пожаловать в игру 'Камень, ножницы, бумага'!")
-    print("Правила: введите один из вариантов (камень, ножницы или бумага) или 'выход' для завершения.")
+choices = ["камень", "ножницы", "бумага"]
+wins_against = {
+    "камень": "ножницы",
+    "ножницы": "бумага",
+    "бумага": "камень",
+}
 
-    while True:
-        user_choice = input("\nВаш ход (камень, ножницы, бумага): ").strip().lower()
-        
-        if user_choice == "выход":
-            print("Спасибо за игру! До свидания.")
-            break
-            
-        if user_choice not in choices:
-            print("Ошибка: такого варианта нет. Попробуйте еще раз (камень, ножницы, бумага).")
-            continue
-            
-        computer_choice = random.choice(choices)
-        print(f"Компьютер выбрал: {computer_choice}")
-        
-        if user_choice == computer_choice:
-            print("Ничья!")
-        elif (
-            (user_choice == "камень" and computer_choice == "ножницы") or
-            (user_choice == "ножницы" and computer_choice == "бумага") or
-            (user_choice == "бумага" and computer_choice == "камень")
-        ):
-            print("Поздравляю, вы выиграли!")
-        else:
-            print("Победил компьютер! Попробуйте отыграться.")
+player_score = 0
+computer_score = 0
 
-if __name__ == "__main__":
-    play_game()
+while True:
+    player = input("\nВыберите (камень, ножницы, бумага) или 'выход': ").strip().lower()
+    if player == "выход":
+        break
+    if player not in choices:
+        print("Неверный ввод. Попробуйте снова.")
+        continue
+
+    computer = random.choice(choices)
+    print(f"Компьютер выбрал: {computer}")
+
+    if player == computer:
+        print("Ничья!")
+    elif wins_against[player] == computer:
+        print("Вы победили!")
+        player_score += 1
+    else:
+        print("Вы проиграли!")
+        computer_score += 1
+
+    print(f"Счёт — Вы: {player_score} | Компьютер: {computer_score}")
