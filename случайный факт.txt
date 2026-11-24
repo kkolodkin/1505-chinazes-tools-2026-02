@@ -1,0 +1,33 @@
+import urllib.request
+import json
+import random
+
+BACKUP_FACTS = [
+    "A cockroach will live nine days without its head before it starves to death.",
+    "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old.",
+    "Octopuses have three hearts, nine brains, and blue blood.",
+    "Bananas are berries, while strawberries are not.",
+    "A day on Venus is longer than a year on Venus.",
+    "Wombats are the only known animals that produce cube-shaped poop."
+]
+
+def get_random_fact():
+    url = "https://jsph.pl"
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json"
+    }
+    
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=5) as response:
+            raw_data = response.read().decode("utf-8")
+            data = json.loads(raw_data)
+            return data["text"]
+    except Exception:
+        
+        return random.choice(BACKUP_FACTS)
+
+if __name__ == "__main__":
+    print(get_random_fact())
+
